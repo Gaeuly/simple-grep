@@ -1,0 +1,42 @@
+# Compiler
+CXX = g++
+
+# Compiler flags
+# -std=c++17: Use C++17 standard
+# -Wall: Show all warnings
+# -O2: Optimize for speed
+CXXFLAGS = -std=c++17 -Wall -O2
+
+# Directories
+SRCDIR = src
+BINDIR = bin
+
+# Find all source files (.cpp) in the src directory
+SOURCES = $(wildcard $(SRCDIR)/*.cpp)
+# Replace .cpp extension with .o for object files
+OBJECTS = $(SOURCES:.cpp=.o)
+
+# Executable file name
+TARGET = $(BINDIR)/simplegrep
+
+# Default rule (executed when 'make' is run)
+all: $(TARGET)
+
+# Rule to build the executable
+$(TARGET): $(OBJECTS)
+	@mkdir -p $(BINDIR) # Create bin directory if it does not exist
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJECTS)
+	@echo "Compilation finished. Executable is at: $(TARGET)"
+
+# Rule to create object files from source files
+# $< represents the first dependency (the .cpp file)
+# $@ represents the target name (the .o file)
+$(SRCDIR)/%.o: $(SRCDIR)/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Rule to clean compilation results
+clean:
+	@rm -rf $(BINDIR) $(SRCDIR)/*.o
+	@echo "Compilation files have been cleaned."
+
+.PHONY: all clean

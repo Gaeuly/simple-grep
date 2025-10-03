@@ -1,0 +1,8 @@
+# Compiled object files
+*.o
+
+# Output directory
+/bin/
+
+# Text files for testing
+*.txt
